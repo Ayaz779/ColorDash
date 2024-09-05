@@ -6,34 +6,68 @@
     <title>Unity WebGL Player | Color Dash</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-
-    <!-- Enforce landscape orientation on mobile -->
+    
+    <!-- Viewport settings -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="screen-orientation" content="landscape">
-    <meta name="orientation" content="landscape">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Custom CSS to handle landscape/portrait mode -->
+    <style>
+      @media only screen and (orientation: portrait) {
+        #rotate-device-message {
+          display: block;
+        }
+        #unity-container {
+          display: none;
+        }
+      }
+
+      @media only screen and (orientation: landscape) {
+        #rotate-device-message {
+          display: none;
+        }
+        #unity-container {
+          display: block;
+        }
+      }
+
+      #rotate-device-message {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 24px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+      }
+    </style>
   </head>
   <body>
+    <!-- Message to show if the user is in portrait mode -->
+    <div id="rotate-device-message">
+      Please rotate your device to landscape mode.
+    </div>
+
+    <!-- Unity WebGL container -->
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
         </div>
       </div>
-      <div id="unity-warning"> </div>
+      <div id="unity-warning"></div>
       <div id="unity-footer">
         <div id="unity-webgl-logo"></div>
         <div id="unity-fullscreen-button"></div>
         <div id="unity-build-title">Color Dash</div>
       </div>
-    </div>
-
-    <!-- Optional Portrait Warning -->
-    <div id="rotate-device-message" style="display: none;">
-      Please rotate your device to landscape mode.
     </div>
 
     <script>
@@ -44,8 +78,6 @@
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
