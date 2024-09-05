@@ -7,12 +7,10 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     
-    <!-- Viewport settings -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     
-    <!-- Custom CSS to handle landscape/portrait mode -->
     <style>
       @media only screen and (orientation: portrait) {
         #rotate-device-message {
@@ -40,15 +38,15 @@
         transform: translate(-50%, -50%);
         text-align: center;
         font-size: 24px;
-        color: white; /* White text */
-        background-color: black; /* Black background */
+        color: white;
+        background-color: black;
         padding: 20px;
         border-radius: 10px;
       }
     </style>
   </head>
   <body>
-    <!-- Message to show if the user is in portrait mode -->
+    <!-- Message for portrait mode -->
     <div id="rotate-device-message">
       Please rotate your device to landscape mode.
     </div>
@@ -69,6 +67,28 @@
         <div id="unity-build-title">Color Dash</div>
       </div>
     </div>
+
+    <script>
+      // JavaScript to check orientation
+      function checkOrientation() {
+        if (window.innerHeight > window.innerWidth) {
+          // Portrait Mode
+          document.getElementById("rotate-device-message").style.display = "block";
+          document.getElementById("unity-container").style.display = "none";
+        } else {
+          // Landscape Mode
+          document.getElementById("rotate-device-message").style.display = "none";
+          document.getElementById("unity-container").style.display = "block";
+        }
+      }
+
+      // Check on load
+      window.onload = checkOrientation;
+
+      // Check on resize/orientation change
+      window.addEventListener("resize", checkOrientation);
+      window.addEventListener("orientationchange", checkOrientation);
+    </script>
 
     <script>
       var container = document.querySelector("#unity-container");
